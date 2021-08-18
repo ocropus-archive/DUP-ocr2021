@@ -1,0 +1,61 @@
+#!/bin/bash
+
+set -e
+
+export OMP_NUM_THREADS=1
+
+image=ocr2021
+remimage=tmbdev/$image
+
+die() {
+    echo "ERROR: $*"
+    exit 1
+}
+
+cmd_clean() { # remove temporary files
+    rm -f *-info.txt
+    rm -f *.pth *.pth.tar
+    rm -f *.log
+}
+
+cmd_cleanlogs() { # clean up log files
+    source venv/bin/activate
+    mkdir -p ./JUNK
+    mv -v $(python3 -m ocropus.slog findempty *.sqlite3) ./JUNK/.
+}
+
+cmd_build() {
+    git commit -a || true
+    (cd docker && docker build - -t ocr2021-base "$@" < Dockerfile-base)
+    (cd docker && docker build --no-cache . -t $image)
+}
+
+cmd_help() { # help message
+echo
+echo available commands:
+echo
+grep '^cmd_[_0-9a-z]*() {' $0 | sed 's/cmd_//;s/\(.*\)() *{* *#* */\1 -- /'
+}
+
+cmd=${1:-help}
+shift
+case $cmd in
+help)
+    echo; echo available commands:; echo
+    grep '^cmd_[_0-9a-z]*() {' "$0" | sed 's/cmd_//;s/\(.*\)() *{* *#* */\1 -- /'
+    ;;
+*.py)
+    # cmd_versions
+    set -e
+    # hg status grep -v '^M ' > /dev/null
+    cmd_venv > venv.log
+    source venv/bin/activate
+    export OMP_NUM_THREADS=1
+    python3 "$cmd" "$@"
+    ;;
+*)
+    set -e
+    "cmd_$cmd" "$@"
+    ;;
+esac
+
