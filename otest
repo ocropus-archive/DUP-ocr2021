@@ -1,0 +1,16 @@
+#!/bin/bash
+
+cmd=/bin/bash
+image=ocr2021
+# opts=
+# runtime='--runtime=nvidia'
+
+docker run \
+    $runtime \
+    --ipc host \
+    --network host \
+    --rm \
+    $opts \
+    -i \
+    -t "$image" \
+    "$cmd" "$@"

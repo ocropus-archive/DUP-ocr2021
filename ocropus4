@@ -1,0 +1,23 @@
+#!/bin/bash
+
+cmd=ocropus4
+image=ocr2021
+opts=
+# runtime='--runtime=nvidia'
+
+docker run \
+    $runtime \
+    --ipc host \
+    --network host \
+    --rm \
+    -v /etc/sudoers:/etc/sudoers \
+    -v /etc/passwd:/etc/passwd \
+    -v /etc/group:/etc/group \
+    -v $HOME:$HOME \
+    -v `pwd`:`pwd` \
+    $opts \
+    -w `pwd` \
+    -u $(id -u):$(id -g) \
+    -i \
+    -t "$image" \
+    "$cmd" "$@"
