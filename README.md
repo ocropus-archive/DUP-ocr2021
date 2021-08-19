@@ -1,9 +1,10 @@
-# Summer School Tutorial
+# Large Scale Processing and Training for OCR, Content Analysis, and Information Extraction
 
-In this tutorial, we look at how to train OCR systems when you have no or little labeled training data.
+The objective of this tutorial is to introduce students to methods and tools for large-scale training and inference for OCR and content analysis.
 
-- discussion of deep learning for OCR: text recognition, segmentation, preprocessing
+- discussion of deep learning for OCR: text recognition, segmentation, preprocessing, table analysis
 - different kinds of self-supervised, semi-supervised, and unsupervised training for OCR
+- bootstrapping training from unlabeled data
 - representation of big OCR datasets using WebDataset, shards, and OCR
 - large scale data processing with Docker and Kubernetes
 
