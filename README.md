@@ -1,6 +1,24 @@
+# Summer School Tutorial
+
+In this tutorial, we look at how to train OCR systems when you have no or little labeled training data.
+
+- discussion of deep learning for OCR: text recognition, segmentation, preprocessing
+- different kinds of self-supervised, semi-supervised, and unsupervised training for OCR
+- representation of big OCR datasets using WebDataset, shards, and OCR
+- large scale data processing with Docker and Kubernetes
+
+The tutorial will consist of short presentations and hands-on experimentation.
+
 # Setting Up your Machine
 
-For the tutorial, you need a running version of docker. Ideally, you should also have a GPU available to you, though you can run the scripts (albeit slowly) without a GPU.
+For the tutorial, you need a running version of docker and a Linux
+environment, preferably Ubuntu 20.04.
+
+**Please set up the environment before the start of the tutorial so that
+you can get started right away.**
+
+Ideally, you should also have a GPU available to you, though you can
+run the scripts (albeit slowly) without a GPU.
 
 ## Setup on Linux
 
@@ -46,12 +64,15 @@ systemctl restart docker
 docker run --rm --gpus all nvidia/cuda nvidia-smi
 ```
 
+You can install Kubernetes with `snap install microk8s`
+
 ## Setup on Windows
 
 Running the examples on Windows 10 (e.g., a Windows laptop) requires a number of installs:
 
 - WSL 2 (Windows Subsystem for Linux)
 - Docker for Windows
+- optionally enable Kubernetes
 
 Be sure to install Ubuntu (20.04) for WSL.  Although the bulk of the
 code runs inside a Docker container, we will still be using Linux for
@@ -68,8 +89,6 @@ Here are some links to get you started:
 - [Official Docker documentation](https://docs.docker.com/desktop/windows/install/)
 - [Microsoft Documentation](https://docs.microsoft.com/en-us/virtualization/windowscontainers/)
 - [CUDA on WSL](https://docs.nvidia.com/cuda/wsl-user-guide/index.html)
-
-
 
 ## Setup on OSX
 
