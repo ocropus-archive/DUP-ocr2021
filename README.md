@@ -12,10 +12,12 @@ The tutorial will consist of short presentations and hands-on experimentation.
 
 # Setting Up your Machine
 
-For the tutorial, you need a running version of docker and a Linux
-environment, preferably Ubuntu 20.04.
+The entire runtime, packages, Python installations, and utilities needed
+for the tutorial are packaged up in a single Docker image called "tmbdev/ocr2021".
+If you have Docker running on your machine, you should be able to run
+this image.
 
-**Please set up the environment before the start of the tutorial so that
+**Please set up Docker on your machine before the start of the tutorial so that
 you can get started right away.**
 
 Ideally, you should also have a GPU available to you, though you can
@@ -23,74 +25,45 @@ run the scripts (albeit slowly) without a GPU.
 
 ## Setup on Linux
 
-There is a lot of documentation on how to set up Docker and the NVIDIA Docker runtime on Linux, for example [here](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
+You may be able to use Docker from your Ubuntu (or other Linux) distro directly using the built-in docker package, though the docker.io package is preferable. Ideally, you also set up your machine to support NVIDIA GPUs.
 
-Here is a rough set of steps to set up Docker on your machine.
+- [NVIDIA documentation for Docker](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html).
+- [Gist showing docker.io and nvidia-docker2 installation](https://gist.github.com/tmbdev/e94fe7f6a98dbfcab164616340f95e81)
+- On Ubuntu, you can install Kubernetes with `snap install microk8s`
 
-```Shell
-# remove old docker installation if any
-apt-get remove -qqy --purge 'docker-*'
-apt-get remove -qqy --purge 'docker.*'
-# prelims
-apt-get install apt-transport-https ca-certificates curl gnupg lsb-release
-# add docker key
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-    gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-# adding docker repo
-echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" > /etc/apt/sources.list.d/docker.list
-# update
-apt-get update
-# install docker
-apt-get install -qqy docker-ce docker-ce-cli containerd.io
-# make sure that you are in group "docker"
-sudo usermod -aG docker `whoami`
-# log out and back in again to pick up the new group
-```
+## Setup on Windows with VirtualBox
 
-If you also want to use NVIDIA GPUs inside Docker, you need the following as well:
+You can install Ubuntu on Windows by using the free
+[VirtualBox](https://www.virtualbox.org/) software. That software works
+on Windows, Linux, and OS X. After installing VirtualBox, you can install
+Ubuntu 20.04 directly in it. There is no GPU suppport with this setup, however.
 
+## Setup on Windows with WSL
 
-```Shell
-# add nvidia docker distro
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
-&& curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add - \
-&& curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-# update
-apt-get update
-# install nvidia-docker2
-apt-get install -qqy nvidia-docker2
-# restart docker
-systemctl restart docker
-# run test container
-docker run --rm --gpus all nvidia/cuda nvidia-smi
-```
+Instead of VirtualBox, you can use Microsoft WSL to run Unbuntu on
+Windows. Microsoft also provides a version of Docker that integrates with
+both Windows and WSL and supports Kubernetes. Be sure to install Ubuntu
+(20.04) for WSL. GPU computing is supported by WSL and Docker on WSL.
 
-You can install Kubernetes with `snap install microk8s`
-
-## Setup on Windows
-
-Running the examples on Windows 10 (e.g., a Windows laptop) requires a number of installs:
-
-- WSL 2 (Windows Subsystem for Linux)
-- Docker for Windows
-- optionally enable Kubernetes
-
-Be sure to install Ubuntu (20.04) for WSL.  Although the bulk of the
-code runs inside a Docker container, we will still be using Linux for
-scripting. Also be sure to enable WSL integration for Docker so that the "docker" command works from within Ubuntu running under WSL.
-
-If you also want to run CUDA:
-
-- NVIDIA Windows drivers (you probably already have those)
-- NVIDIA WSL drivers (you need to install those)
-- nvidia-docker2 runtime (just like on Linux)
-
-Here are some links to get you started:
-
-- [Official Docker documentation](https://docs.docker.com/desktop/windows/install/)
-- [Microsoft Documentation](https://docs.microsoft.com/en-us/virtualization/windowscontainers/)
-- [CUDA on WSL](https://docs.nvidia.com/cuda/wsl-user-guide/index.html)
+The steps for making this work are: (1) install WSL on Windows,
+(2) upgrade to WSL2, (3) install Docker for Windows ([Docker
+info](https://docs.docker.com/desktop/windows/install/), [Microsoft
+Documentation](https://docs.microsoft.com/en-us/virtualization/windowscontainers/)),
+(4) enable Kubernetes in Docker for Windows.
+For CUDA support, install NVIDIA drivers for
+Windows and NVIDIA drivers for WSL
+([CUDA on WSL](https://docs.nvidia.com/cuda/wsl-user-guide/index.html)).
 
 ## Setup on OSX
 
-[Here](https://docs.docker.com/desktop/mac/install/) is the guide for installing Docker on OSX. You need an x86 Mac for this to work. There does not seem to be CUDA support on OSX.
+[Here](https://docs.docker.com/desktop/mac/install/) is the guide for
+installing Docker on OSX. You need an x86 Mac for this to work. There
+does not seem to be CUDA support on OSX.
+
+Installing VirtualBox is another alternative.
+
+## Remote Access to Your Desktop
+
+If you have Linux/Ubuntu installed on your desktop but are working on a laptop,
+consider just installing Docker on your desktop and accessing your desktop
+remotely via VNC.
