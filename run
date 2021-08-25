@@ -12,6 +12,25 @@ die() {
     exit 1
 }
 
+cmd_venv() { # set up a virtualenv
+    test -d venv || python3 -m venv venv
+    source venv/bin/activate
+    pip3 install -U pip
+    pip3 install numpy
+    pip3 install --pre torch torchvision -f https://download.pytorch.org/whl/nightly/cu102/torch_nightly.html
+    pip3 install -U -r requirements.txt
+    pip3 install -U jupyterlab
+    pip3 install -U pytest
+    jupyter kernelspec list
+}
+
+cmd_lab() { # run jupyter lab in the environment
+    set -e
+    cmd_venv > venv.log
+    source venv/bin/activate
+    jupyter lab "$@"
+}
+
 cmd_clean() { # remove temporary files
     rm -f *-info.txt
     rm -f *.pth *.pth.tar
