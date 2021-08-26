@@ -4,6 +4,7 @@ cmd=/bin/bash
 image=ocr2021
 opts=
 # runtime='--runtime=nvidia'
+mkdir -p .home
 
 docker run \
     $runtime \
@@ -13,7 +14,7 @@ docker run \
     -v /etc/sudoers:/etc/sudoers \
     -v /etc/passwd:/etc/passwd \
     -v /etc/group:/etc/group \
-    -v $HOME:$HOME \
+    -v $(pwd)/.home:$HOME \
     -v `pwd`:`pwd` \
     $opts \
     -w `pwd` \

@@ -44,9 +44,15 @@ cmd_cleanlogs() { # clean up log files
 }
 
 cmd_build() {
-    git commit -a || true
     (cd docker && docker build - -t ocr2021-base "$@" < Dockerfile-base)
     (cd docker && docker build --no-cache . -t $image)
+}
+
+cmd_push() {
+    docker tag ocr2021 localhost:32000/ocr2021
+    docker push localhost:32000/ocr2021
+    docker tag ocr2021 tmbdev/ocr2021
+    docker push tmbdev/ocr2021
 }
 
 cmd_help() { # help message
