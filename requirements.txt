@@ -1,4 +1,1 @@
-ray[default]
--e git+git://github.com/tmbdev/webdataset.git#egg=webdataset
--e git+git://github.com/tmbdev/torchmore.git#egg=torchmore
 -e git+git://github.com/ocropus/ocropus4.git#egg=ocropus
