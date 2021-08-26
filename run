@@ -43,14 +43,17 @@ cmd_cleanlogs() { # clean up log files
     mv -v $(python3 -m ocropus.slog findempty *.sqlite3) ./JUNK/.
 }
 
-cmd_build() {
+cmd_build() {  # build the docker container
     (cd docker && docker build - -t ocr2021-base "$@" < Dockerfile-base)
     (cd docker && docker build --no-cache . -t $image)
 }
 
-cmd_push() {
+cmd_pushk8s() {  # push to local microk8s registry
     docker tag ocr2021 localhost:32000/ocr2021
     docker push localhost:32000/ocr2021
+}
+
+cmd_push() {  # push to docker
     docker tag ocr2021 tmbdev/ocr2021
     docker push tmbdev/ocr2021
 }
