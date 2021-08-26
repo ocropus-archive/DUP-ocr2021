@@ -4,11 +4,10 @@ The objective of this tutorial is to introduce students to methods and tools for
 
 - discussion of deep learning for OCR: text recognition, segmentation, preprocessing, table analysis
 - different kinds of self-supervised, semi-supervised, and unsupervised training for OCR
-- bootstrapping training from unlabeled data
 - representation of big OCR datasets using WebDataset, shards, and OCR
 - large scale data processing with Docker and Kubernetes
 
-The tutorial will consist of short presentations and hands-on experimentation.
+The tutorial will consist of a presentation/introduction and hands-on experimentation.
 
 # Setting Up your Machine
 
